@@ -19,7 +19,6 @@ describe "merchant bulk discounts index" do
   
   scenario "I see all my b-discounts including their percentage/quantity, and each bd includes a link to its show page" do
     visit merchant_bulk_discounts_path(@merchant)
-    
     expect(page).to have_content(@bulk_discount1.percentage)
     expect(page).to have_content(@bulk_discount3.quantity_threshold)
     expect(page).to have_link("Bulk Discount ##{@bulk_discount1.id}")
