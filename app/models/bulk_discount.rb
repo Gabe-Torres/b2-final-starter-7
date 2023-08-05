@@ -1,6 +1,6 @@
 class BulkDiscount < ApplicationRecord
-  validates_presence_of :percentage
-  validates_presence_of :quantity_threshold
+  validates :percentage, presence: true
+  validates :quantity_threshold, presence: true
 
   belongs_to :merchant
 end
