@@ -1,0 +1,16 @@
+<section id="header"> 
+  <h3 style="float:left; width:50%; text-align:left;">New Bulk Disocunt</h3>
+</section>
+
+<section>
+ <%= form_with url: merchant_bulk_discounts_path, method: :post do |f| %>
+    <p>
+      <%= f.label :percentage %>
+      <%= f.text_field :percentage, required: true %>
+      <%= f.label :quantity_threshold %>
+      <%= f.text_field :quantity_threshold, required: true %>
+
+      <%= f.submit value: "Sumit New Bulk Discount"%>
+    </p>
+    <% end %>
+</section>
