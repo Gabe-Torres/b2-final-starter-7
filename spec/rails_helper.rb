@@ -1,3 +1,9 @@
+require 'support/factory_bot'
+
+require 'factory_bot_rails'
+require 'faker' 
+require 'rails/console/helpers'
+
 require "simplecov"
 SimpleCov.start
 # This file is copied to spec/ when you run 'rails generate rspec:install'
