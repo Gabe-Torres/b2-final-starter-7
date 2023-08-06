@@ -6,7 +6,7 @@
       <li>Percentage Off: <%= discount.percentage %>
           (<%= discount.quantity_threshold %>- items required)</li>
           <p><%= link_to "Bulk Discount ##{discount.id}", merchant_bulk_discount_path(@merchant, discount) %></p>
-          <p><%= link_to "Delete ##{discount.id}", delete_bulk_discount_path(@merchant, discount), method: :delete %></p>
+          <p><%= button_to "Delete ##{discount.id}", merchant_bulk_discount_path(@merchant, discount), method: :delete %></p>
     </section>
     <% end %>
   </ul>
