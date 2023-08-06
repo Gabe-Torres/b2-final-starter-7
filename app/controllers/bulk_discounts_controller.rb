@@ -42,8 +42,8 @@ class BulkDiscountsController < ApplicationController
     @merchant = Merchant.find(params[:merchant_id])
     @bulk_discount = BulkDiscount.find(params[:id])
     if @bulk_discount.update(bulk_discount_params)
-      flash[:notice] = "Bulk discount updated"
       redirect_to merchant_bulk_discount_path(@merchant, @bulk_discount)
+      flash[:notice] = "Bulk discount updated"
     else 
       render :edit
     end
