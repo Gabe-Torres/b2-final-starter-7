@@ -16,15 +16,15 @@ describe "merchant bulk discounts show" do
   scenario "there is a link to edit bulk disocounts, and when clicked the page redirects to a new edit page" do 
     visit merchant_bulk_discount_path(@merchant, @bulk_discount1)
 
-    find_link("Edit")
-    click_link("Edit")
-    expect(current_path).to eq(update_bulk_discount_path(@merchant, @bulk_discount1))
+    find_button("Edit")
+    click_button("Edit")
+    expect(current_path).to eq(edit_merchant_bulk_discount_path(@merchant, @bulk_discount1))
     
-    expect(find_field("Percentage").value).to eq("20%")
-    expect(find_field("Quantity threshold").value.to_i).to eq(10)
-
+    expect(page).to have_field("Percentage", with: "20%")
+    expect(page).to have_field("Quantity threshold", with: 10)
+    
     fill_in "bulk_discount[quantity_threshold]", with: 20
-
+    
     click_button("submit")
     
     expect(current_path).to eq(merchant_bulk_discount_path(@merchant, @bulk_discount1))

@@ -6,7 +6,7 @@
 <section>
   <ul>
     <li>
-      <p> <%= link_to "Edit", edit_merchant_bulk_discount_path(@merchant, @bulk_discount)  %></p>
+      <p> <%= button_to "Edit", edit_merchant_bulk_discount_path(@merchant, @bulk_discount), method: :get  %></p>
     </li>
   </ul>
 </section>
