@@ -4,10 +4,10 @@ require "rails_helper"
 describe "merchant bulk discounts index" do
   before :each do
     @merchant = create(:merchant)
-    @bulk_discount1 = create(:bulk_discount, merchant: @merchant, percentage: "20%", quantity_threshold: 10)
-    @bulk_discount2 = create(:bulk_discount, merchant: @merchant, percentage: "50%", quantity_threshold: 60)
-    @bulk_discount3 = create(:bulk_discount, merchant: @merchant, percentage: "30%", quantity_threshold: 40)
-    @bulk_discount4 = create(:bulk_discount, merchant: @merchant, percentage: "10%", quantity_threshold: 25)
+    @bulk_discount1 = create(:bulk_discount, merchant: @merchant, percentage: 20, quantity_threshold: 10)
+    @bulk_discount2 = create(:bulk_discount, merchant: @merchant, percentage: 50, quantity_threshold: 60)
+    @bulk_discount3 = create(:bulk_discount, merchant: @merchant, percentage: 30, quantity_threshold: 40)
+    @bulk_discount4 = create(:bulk_discount, merchant: @merchant, percentage: 10, quantity_threshold: 25)
   end
 
   scenario "has a link when visiting merchant dashboard and when clicked i am taken to the bd index" do 
@@ -33,21 +33,21 @@ describe "merchant bulk discounts index" do
     find_link "Enter New Bulk Discount"
     click_link "Enter New Bulk Discount"
 
-    fill_in :percentage, with: "25%"
+    fill_in :percentage, with: 25
     fill_in :quantity_threshold, with:""
 
     click_button("Sumit New Bulk Discount")
 
     expect(page).to have_content("Error: percentage or quantity threshold enter incorrectly")
   
-    fill_in :percentage, with: "25%"
+    fill_in :percentage, with: 25
     fill_in :quantity_threshold, with: 10
 
     click_button("Sumit New Bulk Discount")
 
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant))
 
-    expect(BulkDiscount.last.percentage).to eq("25%")
+    expect(BulkDiscount.last.percentage).to eq(25)
     expect(BulkDiscount.last.quantity_threshold).to eq(10)
     expect(BulkDiscount.last.merchant).to eq(@merchant)
   end

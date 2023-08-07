@@ -9,7 +9,7 @@ RSpec.describe Invoice, type: :model do
     it { should belong_to :customer }
     it { should have_many(:items).through(:invoice_items) }
     it { should have_many(:merchants).through(:items) }
- 
+    it { should have_many(:bulk_discounts).through(:items) }
     it { should have_many :transactions}
   end
   describe "instance methods" do
@@ -23,6 +23,30 @@ RSpec.describe Invoice, type: :model do
       @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 1, unit_price: 10, status: 1)
 
       expect(@invoice_1.total_revenue).to eq(100)
+    end
+    
+    it "discount_revenue" do
+      merchant = create(:merchant)
+      bulk_discount = create(:bulk_discount, merchant: merchant, percentage: 20, quantity_threshold: 10)
+      item = create(:item, merchant: merchant, unit_price: 10, status: 1)
+      customer = create(:customer)
+      invoice = create(:invoice, customer: customer, status: 2)
+      invoice_item = create(:invoice_item, invoice: invoice, item: item, quantity: 20, unit_price: 10, status: 1)
+      transaction = create(:transaction, invoice: invoice, result: 1)
+
+      expect(invoice.discount_revenue).to eq(40)
+    end
+
+    it "total_discounted_revenue" do
+      merchant = create(:merchant)
+      bulk_discount = create(:bulk_discount, merchant: merchant, percentage: 20, quantity_threshold: 10)
+      item = create(:item, merchant: merchant, unit_price: 10, status: 1)
+      customer = create(:customer)
+      invoice = create(:invoice, customer: customer, status: 2)
+      invoice_item = create(:invoice_item, invoice: invoice, item: item, quantity: 20, unit_price: 10, status: 1)
+      transaction = create(:transaction, invoice: invoice, result: 1)
+
+      expect(invoice.total_discounted_revenue).to eq(160)
     end
   end
 end
