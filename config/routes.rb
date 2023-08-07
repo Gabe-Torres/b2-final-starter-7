@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   get "/merchants/:merchant_id/dashboard", to: "dashboard#index"
   get "/admin/merchants", to: "admin/merchants#index"
   get "/admin/dashboard", to: "admin/dashboard#index"
-  # patch "/merchants/:merchant_id/bulk_discounts/:id/edit", to: "bulk_discounts#update", as: :update_bulk_discount
 
   resources :merchants, only: [:show] do
     resources :dashboard, only: [:index]
