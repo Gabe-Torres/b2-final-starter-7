@@ -1,4 +1,5 @@
 require "rails_helper"
+require 'holiday_service'
 
 
 RSpec.describe "merchant bulk discounts index" do
@@ -63,5 +64,26 @@ RSpec.describe "merchant bulk discounts index" do
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant))
     expect(page).to_not have_button("Delete ##{@bulk_discount4.id}")
     expect(BulkDiscount.count).to eq(3)
+  end
+
+  scenario "I see the a section for Upcoming Holidays with a list of 3 names and dates using API" do 
+    visit merchant_bulk_discounts_path(@merchant)
+
+    expect(page).to have_content("Upcoming Holidays")
+
+    response = HTTParty.get("https://date.nager.at/api/v3/NextPublicHolidays/US")
+    expect(response.code).to eq(200)
+    expect(response.respond_to?(:parsed_response)).to be_truthy
+    
+    holidays = HolidayService.new.upcoming_holidays
+    expect(holidays).to be_an_instance_of(Array)
+    expect(holidays.count).to eq(3)
+    
+    within(".holidays") do
+      holidays.each do |holiday|
+        expect(page).to have_content("Name: #{holiday['name']}")
+        expect(page).to have_content("Date: #{holiday['date']}")
+      end
+    end
   end
 end
