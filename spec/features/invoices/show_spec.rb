@@ -117,8 +117,8 @@ RSpec.describe "invoices show" do
       visit merchant_invoice_path(merchant, invoice)
       
       expect(page).to have_content(invoice.total_revenue)
-      expect(page).to have_content("Total Discounted Revenue: #{invoice.total_discounted_revenue}")
-      expect(page).to have_content("Total Discounted Revenue: 160.0")
+      expect(page).to have_content("Total Discounted Revenue: $#{invoice.total_discounted_revenue}")
+      expect(page).to have_content("Total Discounted Revenue: $160.0")
     end
   end
 end
