@@ -1,7 +1,7 @@
 require "rails_helper"
 
 
-describe "merchant bulk discounts show" do
+RSpec.describe "merchant bulk discounts show" do
   before(:each) do
     @merchant = create(:merchant)
     @bulk_discount1 = create(:bulk_discount, merchant: @merchant, percentage: 20, quantity_threshold: 10)
