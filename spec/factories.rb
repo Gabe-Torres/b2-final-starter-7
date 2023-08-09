@@ -57,7 +57,7 @@ FactoryBot.define do
   end
 
   factory :bulk_discount do
-    percentage { "#{Faker::Number.between(from: 0, to: 100)}%" }
+    percentage { Faker::Number.between(from: 0, to: 100) }
     quantity_threshold { Faker::Number.within(range: 1..10) }
 
   end
