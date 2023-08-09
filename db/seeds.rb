@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+
 # Rake::Task["csv_load:all"].invoke
 Merchant.destroy_all
 Item.destroy_all
@@ -67,3 +68,4 @@ end
     result: rand(0..1),
     invoice: invoice)
 end
+

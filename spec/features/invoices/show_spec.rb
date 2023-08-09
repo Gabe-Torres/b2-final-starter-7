@@ -80,10 +80,7 @@ RSpec.describe "invoices show" do
     expect(page).to_not have_content(@ii_4.unit_price)
 
   end
-  # As a merchant
-  # When I visit my merchant invoice show page
-  # Then I see the total revenue for my merchant from this invoice (not including discounts)
-  # And I see the total discounted revenue for my merchant from this invoice which includes bulk discounts in the calculation
+
   it "shows the total revenue for this invoice" do
     visit merchant_invoice_path(@merchant1, @invoice_1)
 
@@ -114,11 +111,32 @@ RSpec.describe "invoices show" do
       invoice = create(:invoice, customer: customer, status: 2)
       invoice_item = create(:invoice_item, invoice: invoice, item: item, quantity: 20, unit_price: 10, status: 1)
       transaction = create(:transaction, invoice: invoice, result: 1)
+      
       visit merchant_invoice_path(merchant, invoice)
       
       expect(page).to have_content(invoice.total_revenue)
       expect(page).to have_content("Total Discounted Revenue: $#{invoice.total_discounted_revenue}")
       expect(page).to have_content("Total Discounted Revenue: $160.0")
+    end
+
+    scenario "next to each invoice item I see a link to the show page for the bulk discount that was applied" do 
+      merchant = create(:merchant)
+      bulk_discount = create(:bulk_discount, merchant: merchant, percentage: 20, quantity_threshold: 10)
+      item = create(:item, merchant: merchant, unit_price: 10, status: 1)
+      customer = create(:customer)
+      invoice = create(:invoice, customer: customer, status: 2)
+      invoice = create(:invoice, customer: customer, status: 2)
+      invoice_item = create(:invoice_item, invoice: invoice, item: item, quantity: 20, unit_price: 10, status: 1)
+      invoice_item2 = create(:invoice_item, invoice: invoice, item: item, quantity: 5, unit_price: 10, status: 1)
+      transaction = create(:transaction, invoice: invoice, result: 1)
+
+      visit merchant_invoice_path(merchant, invoice)
+
+      expect(page).to have_link("Bulk Discount").once
+
+      click_link("Bulk Discount")
+
+      expect(current_path).to eq(merchant_bulk_discount_path(merchant, bulk_discount))
     end
   end
 end

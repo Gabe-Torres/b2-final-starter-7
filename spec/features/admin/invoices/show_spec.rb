@@ -69,4 +69,21 @@ describe "Admin Invoices Index Page" do
       expect(@i1.status).to eq("completed")
     end
   end
+
+  describe "Project start" do
+    scenario "I see the total revenue from this invoice (not including discounts)" do
+      merchant = create(:merchant)
+      bulk_discount = create(:bulk_discount, merchant: merchant, percentage: 20, quantity_threshold: 10)
+      item = create(:item, merchant: merchant, unit_price: 10, status: 1)
+      customer = create(:customer)
+      invoice = create(:invoice, customer: customer, status: 2)
+      invoice_item = create(:invoice_item, invoice: invoice, item: item, quantity: 20, unit_price: 10, status: 1)
+      transaction = create(:transaction, invoice: invoice, result: 1)
+
+      visit admin_invoice_path(invoice)
+      
+      expect(page).to have_content("Total Revenue: $200.00")
+      expect(page).to have_content("Total Discounted Revenue: $160.00")
+    end
+  end
 end
